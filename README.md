@@ -54,6 +54,8 @@ vme [flags] <mp4-file>
     ```bash
     vme -f video.mp4
     ```
+#### Example output
+<img src="data/image.png" alt="Example output" width="600"/>
 
 ## ⚙️ How it Works
 
