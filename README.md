@@ -35,6 +35,16 @@ vme [flags] <mp4-file>
 *   `-e`: Extended metadata (file and movie information).
 *   `-f`: Full metadata (file, movie, and track information).
 
+### 🛠️ Make Commands
+
+To enable the installation of the `vme` command, you can use the following commands:
+
+```bash
+make build
+make install
+make clean
+```
+
 ### Examples
 
 *   Extract basic metadata:
