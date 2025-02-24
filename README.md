@@ -34,6 +34,7 @@ vme [flags] <mp4-file>
 *   `-b`: Basic metadata (file information only).
 *   `-e`: Extended metadata (file and movie information).
 *   `-f`: Full metadata (file, movie, and track information).
+*   `-o`: Output format (json/xml) - exports metadata to a file instead of console output.
 
 ### 🛠️ Make Commands
 
@@ -64,6 +65,21 @@ make clean
     ```bash
     vme -f video.mp4
     ```
+
+*   Export metadata as JSON:
+
+    ```bash
+    vme -f -o json video.mp4
+    ```
+
+*   Export metadata as XML:
+
+    ```bash
+    vme -f -o xml video.mp4
+    ```
+
+When using the `-o` flag, the metadata will be exported to a file named `<input-filename>-metadata.<format>` in the current directory. For example, if your input file is `video.mp4` and you use `-o json`, the output will be saved as `video-metadata.json`.
+
 #### Example output
 <img src="data/image.png" alt="Example output" width="600"/>
 
