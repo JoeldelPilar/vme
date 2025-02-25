@@ -56,9 +56,6 @@ func TestS3Client_Integration(t *testing.T) {
 	}
 
 	endpoint := "http://localhost:9000"
-	if os.Getenv("CI") == "true" {
-		endpoint = "http://minio:9000"
-	}
 
 	config := S3Config{
 		BucketName: "test-bucket",
