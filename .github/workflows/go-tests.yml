@@ -13,7 +13,7 @@ jobs:
     
     services:
       minio:
-        image: minio/minio:latest server /data --console-address ":9001"
+        image: minio/minio:latest
         ports:
           - 9000:9000
           - 9001:9001
