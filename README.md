@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Go Tests](https://img.shields.io/github/actions/workflow/status/joeldelpilar/vme/go-tests.yml?branch=main&label=tests)](https://github.com/joeldelpilar/vme/actions/workflows/go-tests.yml)
 
-A command-line tool to extract metadata from MP4 video files.
+A command-line tool to extract metadata from MP4 video files
 
 ## 🌟 Features
 
