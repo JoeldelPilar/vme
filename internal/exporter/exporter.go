@@ -13,7 +13,7 @@ import (
 func ExportMetadata(metadata extractor.MediaMetadata, format string) error {
 	// Create output filename based on format
 	outputFile := fmt.Sprintf("%s-metadata.%s", metadata.FileInfo.Filename, format)
-	
+
 	var data []byte
 	var err error
 
@@ -37,4 +37,4 @@ func ExportMetadata(metadata extractor.MediaMetadata, format string) error {
 	}
 
 	return nil
-} 
+}
