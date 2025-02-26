@@ -29,7 +29,7 @@ func main() {
 
 	flag.Parse()
 
-	// Controll if an input file is given
+	// Control if an input file is given
 	args := flag.Args()
 	if len(args) < 1 {
 		fmt.Println("Usage: vme [flags] <mp4-file>")
