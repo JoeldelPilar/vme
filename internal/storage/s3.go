@@ -66,3 +66,16 @@ func (s *S3Client) UploadFile(ctx context.Context, filePath string, key string) 
 
 	return nil
 }
+
+// LoadS3ConfigFromEnv loads S3 credentials from environment variables if they are not already set
+func LoadS3ConfigFromEnv(config S3Config) S3Config {
+	// Endast läs känsliga uppgifter från miljövariabler
+	if config.AccessKey == "" {
+		config.AccessKey = os.Getenv("VME_S3_ACCESS_KEY")
+	}
+	if config.SecretKey == "" {
+		config.SecretKey = os.Getenv("VME_S3_SECRET_KEY")
+	}
+	
+	return config
+}
