@@ -1,6 +1,6 @@
 # 🎬 vme - Video Metadata Extractor
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/joeldelpilar/vme)](https://goreportcard.com/report/github.com/joeldelpilar/vme)
+[![Go Report Card](https://goreportcard.com/badge/github.com/joeldelpilar/vme?=1708954138)](https://goreportcard.com/report/github.com/joeldelpilar/vme)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Go Tests](https://img.shields.io/github/actions/workflow/status/joeldelpilar/vme/go-tests.yml?branch=main&label=tests)](https://github.com/joeldelpilar/vme/actions/workflows/go-tests.yml)
 
