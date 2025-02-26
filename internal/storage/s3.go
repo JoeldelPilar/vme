@@ -11,12 +11,12 @@ import (
 )
 
 type S3Config struct {
-	BucketName  string
-	Region      string
-	Endpoint    string
-	UseSSL      bool
-	AccessKey   string
-	SecretKey   string
+	BucketName string
+	Region     string
+	Endpoint   string
+	UseSSL     bool
+	AccessKey  string
+	SecretKey  string
 }
 
 type S3Client struct {
@@ -76,6 +76,6 @@ func LoadS3ConfigFromEnv(config S3Config) S3Config {
 	if config.SecretKey == "" {
 		config.SecretKey = os.Getenv("VME_S3_SECRET_KEY")
 	}
-	
+
 	return config
 }

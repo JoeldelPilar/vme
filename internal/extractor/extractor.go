@@ -16,12 +16,12 @@ type FFProbeOutput struct {
 }
 
 type Format struct {
-	Filename  string            `json:"filename"`
-	Duration  string            `json:"duration"`
-	Size      string            `json:"size"`
-	BitRate   string            `json:"bit_rate"`
-	Format    string            `json:"format_name"`
-	Tags      map[string]string `json:"tags"`
+	Filename string            `json:"filename"`
+	Duration string            `json:"duration"`
+	Size     string            `json:"size"`
+	BitRate  string            `json:"bit_rate"`
+	Format   string            `json:"format_name"`
+	Tags     map[string]string `json:"tags"`
 }
 
 type Stream struct {
@@ -44,8 +44,8 @@ type MetadataTag struct {
 }
 
 type MediaMetadata struct {
-	XMLName   xml.Name `json:"-" xml:"MediaMetadata"`
-	FileInfo  struct {
+	XMLName  xml.Name `json:"-" xml:"MediaMetadata"`
+	FileInfo struct {
 		Filename string `json:"filename" xml:"filename"`
 		Size     string `json:"size" xml:"size"`
 		Format   string `json:"format" xml:"format"`
@@ -62,43 +62,43 @@ type MediaMetadata struct {
 }
 
 type TagGroup struct {
-    Name string
-    Tags []string
+	Name string
+	Tags []string
 }
 
 var metadataGroups = []TagGroup{
-    {
-        Name: "Temporal Information",
-        Tags: []string{"creation_time", "date", "year"},
-    },
-    {
-        Name: "Content Information",
-        Tags: []string{"title", "description", "synopsis", "comment", "copyright"},
-    },
-    {
-        Name: "Creator Information",
-        Tags: []string{"artist", "album_artist", "composer", "author", "director", "producer"},
-    },
-    {
-        Name: "Categorization",
-        Tags: []string{"genre", "album", "show", "episode_id", "network", "season_number", "episode_sort"},
-    },
-    {
-        Name: "Technical Information",
-        Tags: []string{"encoder", "encoder_version", "compatible_brands", "major_brand", "minor_version"},
-    },
-    {
-        Name: "Location and Language",
-        Tags: []string{"location", "language", "country"},
-    },
-    {
-        Name: "Media Information",
-        Tags: []string{"media_type", "rating", "purchase_date", "sort_name", "artwork_url"},
-    },
-    {
-        Name: "Distribution",
-        Tags: []string{"publisher", "publisher_id", "content_id", "isrc"},
-    },
+	{
+		Name: "Temporal Information",
+		Tags: []string{"creation_time", "date", "year"},
+	},
+	{
+		Name: "Content Information",
+		Tags: []string{"title", "description", "synopsis", "comment", "copyright"},
+	},
+	{
+		Name: "Creator Information",
+		Tags: []string{"artist", "album_artist", "composer", "author", "director", "producer"},
+	},
+	{
+		Name: "Categorization",
+		Tags: []string{"genre", "album", "show", "episode_id", "network", "season_number", "episode_sort"},
+	},
+	{
+		Name: "Technical Information",
+		Tags: []string{"encoder", "encoder_version", "compatible_brands", "major_brand", "minor_version"},
+	},
+	{
+		Name: "Location and Language",
+		Tags: []string{"location", "language", "country"},
+	},
+	{
+		Name: "Media Information",
+		Tags: []string{"media_type", "rating", "purchase_date", "sort_name", "artwork_url"},
+	},
+	{
+		Name: "Distribution",
+		Tags: []string{"publisher", "publisher_id", "content_id", "isrc"},
+	},
 }
 
 func DisplayMetadata(metadata MediaMetadata, level string) {
@@ -140,9 +140,9 @@ func DisplayMetadata(metadata MediaMetadata, level string) {
 	if level == "full" {
 		fmt.Println("\n\033[96m----- Track Information -----\033[0m")
 		fmt.Printf("\nBitrate: %s bits/s\n", metadata.TrackInfo.BitRate)
-		
+
 		for _, stream := range metadata.TrackInfo.Streams {
-			fmt.Printf("\n%s Track - Codec: %s", 
+			fmt.Printf("\n%s Track - Codec: %s",
 				strings.ToUpper(stream.Type), stream.Codec)
 			if stream.Resolution != "" {
 				fmt.Printf(", Resolution: %s", stream.Resolution)
@@ -218,11 +218,12 @@ func ExtractMetadata(filepath string, level string) (MediaMetadata, error) {
 	metadata := extractMediaMetadata(data)
 	return metadata, nil
 }
+
 // Lägg till ny funktion för att hantera output i olika format
 func OutputMetadata(metadata MediaMetadata, format string) error {
 	// Skapa output-filnamn baserat på formatet
 	outputFile := fmt.Sprintf("%s-metadata.%s", metadata.FileInfo.Filename, format)
-	
+
 	var data []byte
 	var err error
 
