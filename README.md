@@ -123,6 +123,42 @@ When using the `-o` flag and not using the `-s3-upload` flag, the metadata will 
 #### Example output
 <img src="data/image.png" alt="Example output" width="600"/>
 
+## 🧪 Local Testing with Docker
+
+If you want to test the S3 functionality locally without using actual cloud services, you can use MinIO running in Docker.
+
+### Setting Up MinIO in Docker
+
+1. Start MinIO with Docker:
+
+   ```bash
+   docker run -p 9000:9000 -p 9001:9001 --name minio \
+     -e "MINIO_ROOT_USER=minioadmin" \
+     -e "MINIO_ROOT_PASSWORD=minioadmin" \
+     bitnami/minio:latest
+   ```
+
+2. Access the MinIO web interface at http://localhost:9001 and log in with:
+   - Username: `minioadmin`
+   - Password: `minioadmin`
+
+3. Create a new bucket (e.g., "test-bucket") through the web interface.
+
+### Using vme with Local MinIO
+
+Once MinIO is running, you can use vme to upload metadata to it:
+
+```bash
+# Set environment variables for authentication
+export VME_S3_ACCESS_KEY=minioadmin
+export VME_S3_SECRET_KEY=minioadmin
+
+# Extract and upload metadata to local MinIO
+vme -f -o json -s3-upload -s3-bucket test-bucket -s3-endpoint http://localhost:9000 -s3-ssl=false video.mp4
+```
+
+This setup is perfect for development and testing of the S3 integration functionality without requiring actual cloud resources.
+
 ## ⚙️ How it Works
 
 The tool uses `ffprobe` (from the FFmpeg suite) to analyze the MP4 file and extract metadata. The extracted data is then formatted and displayed in the console or exported to a file in the specified format.
