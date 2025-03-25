@@ -66,57 +66,43 @@ make clean
 
 ### Examples
 
-*   Extract basic metadata:
+*   Extract basic metadata from local file:
 
     ```bash
     vme -b video.mp4
     ```
 
-*   Extract extended metadata:
+*   Extract full metadata from S3/MinIO and save as JSON:
 
     ```bash
-    vme -e video.mp4
+    vme -f -o json s3://my-bucket/video.mp4 \
+        -s3-endpoint https://minio.example.com \
+        -s3-bucket output-bucket \
+        -s3-upload
     ```
 
-*   Extract full metadata:
+*   Using MinIO with custom endpoint and SSL disabled:
 
     ```bash
-    vme -f video.mp4
+    # Set required environment variables
+    export VME_S3_ACCESS_KEY="your_access_key"
+    export VME_S3_SECRET_KEY="your_secret_key"
+
+    # Run command
+    vme -f \
+        -s3-endpoint https://your-minio-server.com \
+        -s3-bucket your-bucket \
+        -s3-ssl=false \
+        -o json \
+        -s3-upload \
+        s3://input-bucket/path/to/video.mp4
     ```
 
-*   Export metadata as JSON:
-
-    ```bash
-    vme -f -o json video.mp4
-    ```
-
-*   Export metadata as XML:
-
-    ```bash
-    vme -f -o xml video.mp4
-    ```
-
-*   Export metadata and upload to AWS S3:
-
-    ```bash
-    # Set environment variables first
-    export VME_S3_ACCESS_KEY=your_access_key
-    export VME_S3_SECRET_KEY=your_secret_key
-    
-    # Then run the command
-    vme -f -o json -s3-upload -s3-bucket my-bucket video.mp4
-    ```
-
-*   Export metadata and upload to MinIO:
-
-    ```bash
-    # Set environment variables first
-    export VME_S3_ACCESS_KEY=minioadmin  # or your custom access key
-    export VME_S3_SECRET_KEY=minioadmin  # or your custom secret key
-    
-    # Then run the command
-    vme -f -o json -s3-upload -s3-bucket test-bucket -s3-endpoint <Your-s3-endpoint> -s3-ssl=<true/false> video.mp4
-    ```
+    This will:
+    1. Download the video from S3/MinIO
+    2. Extract full metadata
+    3. Save it as JSON
+    4. Upload the metadata file back to the specified bucket
 
 When using the `-o` flag and not using the `-s3-upload` flag, the metadata will be exported to a file named `<input-filename>-metadata.<format>` in the current directory. For example, if your input file is `video.mp4` and you use `-o json`, the output will be saved as `video-metadata.json`.
 

@@ -29,7 +29,24 @@ type Flags struct {
 
 func main() {
 	flags := parseFlags()
-	inputFile := validateInput()
+	input := validateInput()
+
+	var inputFile string
+	var cleanup func()
+
+	// Check if input is an S3 URI
+	if strings.HasPrefix(input, "s3://") {
+		var err error
+		inputFile, cleanup, err = handleS3Input(input, flags)
+		if err != nil {
+			log.Fatalf("Error handling S3 input: %v", err)
+		}
+		if cleanup != nil {
+			defer cleanup()
+		}
+	} else {
+		inputFile = input
+	}
 
 	level := determineExtractionLevel(flags)
 
@@ -90,13 +107,52 @@ func parseFlags() Flags {
 
 // validateInput checks if input file is provided and returns it
 func validateInput() string {
-	args := flag.Args()
-	if len(args) < 1 {
-		fmt.Println("Usage: vme [flags] <mp4-file>")
-		flag.PrintDefaults()
-		os.Exit(1)
+	if len(flag.Args()) != 1 {
+		log.Fatal("Please provide exactly one input file or S3 URI")
 	}
-	return args[0]
+	return flag.Args()[0]
+}
+
+// handleS3Input handles input if it's an S3 URI
+func handleS3Input(input string, flags Flags) (string, func(), error) {
+	bucket, key, err := storage.ParseS3URI(input)
+	if err != nil {
+		return "", nil, err
+	}
+
+	// Create S3 configuration
+	s3Config := storage.S3Config{
+		BucketName: bucket,
+		Region:     flags.S3Region,
+		Endpoint:   flags.S3Endpoint,
+		UseSSL:     flags.S3UseSSL,
+	}
+
+	// Load access key and secret key from environment variables
+	s3Config = storage.LoadS3ConfigFromEnv(s3Config)
+
+	// Check that necessary credentials exist
+	if s3Config.AccessKey == "" || s3Config.SecretKey == "" {
+		return "", nil, fmt.Errorf("S3 access key and secret key must be set via VME_S3_ACCESS_KEY and VME_S3_SECRET_KEY environment variables")
+	}
+
+	// Create S3 client
+	client, err := storage.NewS3Client(s3Config)
+	if err != nil {
+		return "", nil, fmt.Errorf("failed to create S3 client: %v", err)
+	}
+
+	// Download the file
+	tmpFile, err := client.DownloadFile(context.Background(), key)
+	if err != nil {
+		return "", nil, fmt.Errorf("failed to download file from S3: %v", err)
+	}
+
+	cleanup := func() {
+		os.Remove(tmpFile)
+	}
+
+	return tmpFile, cleanup, nil
 }
 
 // determineExtractionLevel determines which extraction level to use based on flags
