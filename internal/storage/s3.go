@@ -3,7 +3,9 @@ package storage
 import (
 	"context"
 	"fmt"
+	"io"
 	"os"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -78,4 +80,46 @@ func LoadS3ConfigFromEnv(config S3Config) S3Config {
 	}
 
 	return config
+}
+
+// DownloadFile downloads a file from S3 to a local temporary file
+func (s *S3Client) DownloadFile(ctx context.Context, key string) (string, error) {
+	// Create a temporary file
+	tmpFile, err := os.CreateTemp("", "vme-download-*")
+	if err != nil {
+		return "", fmt.Errorf("failed to create temporary file: %w", err)
+	}
+	defer tmpFile.Close()
+
+	// Get the object from S3
+	result, err := s.client.GetObject(ctx, &s3.GetObjectInput{
+		Bucket: aws.String(s.bucketName),
+		Key:    aws.String(key),
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed to get object from S3: %w", err)
+	}
+	defer result.Body.Close()
+
+	// Copy the contents to the temporary file
+	_, err = io.Copy(tmpFile, result.Body)
+	if err != nil {
+		return "", fmt.Errorf("failed to copy S3 object to file: %w", err)
+	}
+
+	return tmpFile.Name(), nil
+}
+
+// ParseS3URI parses an S3 URI (s3://bucket/key) into bucket and key
+func ParseS3URI(uri string) (bucket string, key string, err error) {
+	if !strings.HasPrefix(uri, "s3://") {
+		return "", "", fmt.Errorf("invalid S3 URI format: %s", uri)
+	}
+
+	parts := strings.SplitN(strings.TrimPrefix(uri, "s3://"), "/", 2)
+	if len(parts) != 2 {
+		return "", "", fmt.Errorf("invalid S3 URI format: %s", uri)
+	}
+
+	return parts[0], parts[1], nil
 }

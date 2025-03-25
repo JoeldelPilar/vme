@@ -1,0 +1,60 @@
+{
+  "fileInfo": {
+    "filename": "vme-download-2803069479",
+    "size": "32071424",
+    "format": "mov,mp4,m4a,3gp,3g2,mj2"
+  },
+  "movieInfo": {
+    "title": "Big Buck Bunny, Sunflower version",
+    "duration": "10.000000",
+    "tags": [
+      {
+        "name": "title",
+        "value": "Big Buck Bunny, Sunflower version"
+      },
+      {
+        "name": "comment",
+        "value": "Creative Commons Attribution 3.0 - http://bbb3d.renderfarming.net"
+      },
+      {
+        "name": "artist",
+        "value": "Blender Foundation 2008, Janus Bager Kristensen 2013"
+      },
+      {
+        "name": "composer",
+        "value": "Sacha Goedegebure"
+      },
+      {
+        "name": "genre",
+        "value": "Animation"
+      },
+      {
+        "name": "encoder",
+        "value": "Lavf57.63.100"
+      },
+      {
+        "name": "compatible_brands",
+        "value": "isomiso2avc1mp41"
+      },
+      {
+        "name": "major_brand",
+        "value": "isom"
+      },
+      {
+        "name": "minor_version",
+        "value": "512"
+      }
+    ]
+  },
+  "trackInfo": {
+    "streams": [
+      {
+        "Index": 0,
+        "Type": "video",
+        "Codec": "h264",
+        "Resolution": "1280x720"
+      }
+    ],
+    "bitRate": "25657139"
+  }
+}
